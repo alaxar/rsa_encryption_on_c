@@ -49,7 +49,6 @@ int generating_keys(struct PRIMES_AND_KEYS *keys) {
 		if(gcd(publicKey, phi) == 1) {
 			int i = 0;
 			keys->PublicKeys[i] = publicKey;
-			printf("Public keys: %d\n", keys->PublicKeys[i]);
 			i++;
 			break;
 		}
@@ -64,5 +63,5 @@ int generating_keys(struct PRIMES_AND_KEYS *keys) {
 			keys->PrivateKeys = (1 + x * phi) / keys->PublicKeys[0];
 		}
 	}
-	printf("N: %d PHI: %d PublicKey: %d PrivateKey: %d\n", keys->ModuluN, keys->Phi, keys->PublicKeys[0], keys->PrivateKeys);
+	printf("N: %d\nPHI: %d\nPublicKey: %d\nPrivateKey: %d\n", keys->ModuluN, keys->Phi, keys->PublicKeys[0], keys->PrivateKeys);
 }
