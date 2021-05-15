@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 
 // I used struct to store both generated prime number, it help a function to return both numbers at once for another function
 

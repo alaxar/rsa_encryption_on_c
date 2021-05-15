@@ -84,7 +84,7 @@ int encrypt(char *message, struct PRIMES_AND_KEYS *keys) {
 	struct PRIMES_AND_KEYS *generatedKeys = (struct PRIMES_AND_KEYS*)malloc(sizeof(struct PRIMES_AND_KEYS));
 	generatedKeys = generating_keys(keys);
 	printf("N: %d\nPHI: %d\nPublicKey: %d\nPrivateKey: %d\n", generatedKeys->ModuluN, generatedKeys->Phi, generatedKeys->PublicKeys[0], generatedKeys->PrivateKeys);
-
+	strcpy(generatedKeys->message, message);
 	for(int i = 0; message[i] != '\0'; i++) {
 		index_position_by_cipher = raise_to_pow(message[i], generatedKeys->PublicKeys[0]) % generatedKeys->ModuluN; // this is just to generate index position from the encrypted value(ascii number) to represent the number with pre-defined alphabets
 		last_index = index_position_by_cipher % 94; // this is wrap the number around 94.
