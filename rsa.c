@@ -1,8 +1,22 @@
 #include "rsa.h"
 
 // implementation of rsa header file
-// All the variables and function declared in header rsa.h is defined here
-//
+// All the variables and function declared in header rsa.h is def message[i]//
+int index_position_by_cipher, last_index;
+char alphabets[94];
+int fillAlphabets() {
+	for(int i = 0; i < 94; i++) {
+		alphabets[i] = (char)33 + i;	// filling the array with ascii characters starting from (! - ~) or (33 - 126)
+	}
+}
+
+int raise_to_pow(int base, int expo) {
+	int result = 1;
+	for(int i = 0; i < expo; i++) {
+		result = result * base;
+	}
+	return result;
+}
 
 int select_prime_numbers(int n) {
 	int isPrime = 0, m = 0;
@@ -28,7 +42,7 @@ int gcd(int a, int b) {
 	return gcd(b, a % b);
 }
 
-int generating_keys(struct PRIMES_AND_KEYS *keys) {
+struct PRIMES_AND_KEYS *generating_keys(struct PRIMES_AND_KEYS *keys) {
 	int p, q, n, phi, privateKey = 0;
 	p = keys->prime1;
 	q = keys->prime2;
@@ -63,5 +77,22 @@ int generating_keys(struct PRIMES_AND_KEYS *keys) {
 			keys->PrivateKeys = (1 + x * phi) / keys->PublicKeys[0];
 		}
 	}
-	printf("N: %d\nPHI: %d\nPublicKey: %d\nPrivateKey: %d\n", keys->ModuluN, keys->Phi, keys->PublicKeys[0], keys->PrivateKeys);
+	return keys;
+}
+
+int encrypt(char *message, struct PRIMES_AND_KEYS *keys) {
+	struct PRIMES_AND_KEYS *generatedKeys = (struct PRIMES_AND_KEYS*)malloc(sizeof(struct PRIMES_AND_KEYS));
+	generatedKeys = generating_keys(keys);
+	printf("N: %d\nPHI: %d\nPublicKey: %d\nPrivateKey: %d\n", generatedKeys->ModuluN, generatedKeys->Phi, generatedKeys->PublicKeys[0], generatedKeys->PrivateKeys);
+
+	for(int i = 0; message[i] != '\0'; i++) {
+		index_position_by_cipher = raise_to_pow(message[i], generatedKeys->PublicKeys[0]) % generatedKeys->ModuluN; // this is just to generate index position from the encrypted value(ascii number) to represent the number with pre-defined alphabets
+		last_index = index_position_by_cipher % 94; // this is wrap the number around 94.
+		generatedKeys->cipher[i] = alphabets[last_index];
+			generatedKeys->cipher[i] = generatedKeys->cipher[i];
+	}
+}
+
+int decrypt(struct PRIMES_AND_KEYS *keys) {
+
 }
